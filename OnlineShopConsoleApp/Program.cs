@@ -55,7 +55,7 @@
         public void ShowBasket()
         {
             Console.WriteLine("Содержимое корзины");
-            ShowProducts(Basket);
+            ShowProducts(Basket); 
         }
         public void AddToBasket(int numberProduct)
         {
