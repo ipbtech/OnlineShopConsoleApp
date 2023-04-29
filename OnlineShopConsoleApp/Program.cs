@@ -7,8 +7,6 @@
             Store onlineStore = new Store();
             Console.WriteLine("Добро пожаловать в наш онлайн-магазин");
 
-            bool isRight = true;
-            do
             {
                 StartMenu();
                 int numberAction = StartMenuAction();
