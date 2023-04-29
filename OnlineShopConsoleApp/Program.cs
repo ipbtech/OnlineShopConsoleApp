@@ -6,50 +6,61 @@
         {
             Store onlineStore = new Store();
             Console.WriteLine("Добро пожаловать в наш онлайн-магазин");
-
+            bool isRight = true;
+            do
             {
                 StartMenu();
                 int numberAction = StartMenuAction();
-                // Показать каталог продуктов
+                # region Показать каталог продуктов
                 if (numberAction == 1)
                 {
                     onlineStore.ShowCatalog();
                 }
-                // Войти как админ
+                #endregion
+
+                #region Вход в панель администратора
                 else if (numberAction == 2)
                 {
-                    string login = String.Empty;
-                    string password = String.Empty;
-                    while (login != "admin" & password != "admin")
+                    bool adminAccess = AdminAuthorisation();
+                    if (adminAccess == true)
                     {
-                        Console.WriteLine("Введите логин:");
-                        login = Console.ReadLine();
-                        Console.WriteLine("Введите пароль:");
-                        password = Console.ReadLine();
-
-                        if (login == "admin" & password == "admin")
+                        Admin admin = new Admin();
+                        int adminAction = 0;
+                        while (adminAction != 3)
                         {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Введенные логин и/или пароль не совпадают. Попробовать еще раз? (Yes/No)");
-                            string userAnswer = IsYes();;
-                            if (userAnswer == "no")
+                            admin.AdminInfo();
+                            adminAction = admin.AdminAction();
+                            if (adminAction == 1)
                             {
-                                break;
+                                onlineStore.ShowCatalog();
                             }
-                            else if 
+                            else if (adminAction == 2)
                             {
-                                userAnswer = IsYes();
-                            }
-                            
+                                #region Получение данных о продукте с консоли
+                                Console.WriteLine("Введите название продукта:");
+                                string nameProduct = Console.ReadLine();
 
+                                decimal cost;
+                                while (true)
+                                {
+                                    Console.WriteLine("Введите стоимость продукта:");
+                                    try
+                                    {
+                                        cost = Convert.ToDecimal(Console.ReadLine());
+                                        break;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        Console.WriteLine("Вы ввели некорректное значение. Введите соответствующую цифру для запуска действия:");
+                                    }
+                                }
+                                #endregion
+                                onlineStore.AddProductToStore(nameProduct, cost);
+                            }
                         }
                     }
                 }
-
-
+                #endregion
                 else if (numberAction == 3)
                 {
 
@@ -143,29 +154,55 @@
             static string IsYes()
             {
                 string userAnswer = Console.ReadLine();
-                if (userAnswer.ToLower() == "yes") 
-                { 
-                    return userAnswer; 
-                }
-                else if (userAnswer.ToLower() == "no") 
-                { 
-                    return userAnswer; 
-                }
-                else 
-                { 
-                    return "None"; 
-                }
+                if (userAnswer.ToLower() == "yes") { return userAnswer; }
+                else if (userAnswer.ToLower() == "no") { return userAnswer; }
+                else { return "None";  }
             }
 
-            static void AdminMenu()
+            static bool AdminAuthorisation()
             {
-                Console.WriteLine("==========================================================");
-                Console.WriteLine("Выберите действие, которое хотите совершить:");
-                Console.WriteLine("1. Посмотреть список продуктов");
-                Console.WriteLine("2. Добавить продукт");
-                Console.WriteLine("3. Вернуться назад"); ;
-                Console.WriteLine("==========================================================");
+                bool value = false;
+                string login = String.Empty;
+                string password = String.Empty;
+                while (login != "admin" | password != "admin")
+                {
+                    Console.WriteLine("Введите логин:");
+                    login = Console.ReadLine();
+                    Console.WriteLine("Введите пароль:");
+                    password = Console.ReadLine();
+
+                    if (login == "admin" & password == "admin")
+                    {
+                        value = true;
+                        break;
+                    }
+                    else
+                    {
+                        string userAnswer = "None";
+                        Console.WriteLine("Введенные логин и/или пароль не совпадают. Попробовать еще раз? (Yes/No)");
+                        while (userAnswer != "yes")
+                        {
+                            userAnswer = IsYes();
+                            if (userAnswer == "no")
+                            {
+                                value = false;
+                                break;
+                            }
+                            else if (userAnswer != "no" & userAnswer != "yes")
+                            {
+                                Console.WriteLine("Введите Yes/No");
+                            }
+                        }
+                        if (userAnswer == "no")
+                        {
+                            value = false;
+                            break;
+                        }
+                    }
+                }
+                return value;
             }
+
             static void SecondMenu()
             {
                 Console.WriteLine("==========================================================");
@@ -200,26 +237,6 @@
                 return act;
             }
         }
-    }
-    public class Admin
-    {
-        public string Login = "admin";
-        public string Password = "admin";
-        public Admin(string login, string password)
-        {
-            if (login == Login & password == Password)
-            {
-
-            }
-            else
-            {
-                while (login != Login & password != Password)
-                {
-
-                }
-            }
-        }
-
     }
 }
 
