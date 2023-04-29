@@ -19,6 +19,11 @@
             Basket = new List<Product>();
             Orders = new List<Order>();
         }
+        public void AddProductToStore(string name, decimal cost)
+        {
+            Products.Add(new Product(name, cost));
+            Console.WriteLine($"Продукт {name} успешно добавлен в магазин");
+        }
         public void ShowCatalog()
         {
             Console.WriteLine("Каталог продуктов:");
