@@ -16,8 +16,6 @@
                 new Product("Йогурт", 300),
                 new Product("Сок", 80)
             };
-            Basket = new List<Product>();
-            Orders = new List<Order>();
         }
         public void AddProductToStore(string name, decimal cost)
         {
@@ -30,17 +28,6 @@
             Console.WriteLine("{0, -10} {1, -10} {2, -10}", "Позиция", "Продукт", "Стоимость");
             ShowProducts(Products);
         }
-        public void ShowBasket()
-        {
-            Console.WriteLine("Содержимое корзины");
-            ShowProducts(Basket);
-        }
-        public void AddToBasket(int numberProduct)
-        {
-            Basket.Add(Products[numberProduct - 1]);
-            Console.WriteLine($"Продукт {Products[numberProduct - 1].Name} успешно добавлен в корзину.");
-            Console.WriteLine($"В корзине {Basket.Count} продуктов.");
-        }
         public void ShowProducts(List<Product> products)
         {
             int number = 1;
@@ -50,13 +37,6 @@
                 product.Print();
                 number++;
             }
-        }
-        public void CreateOrder()
-        {
-            Order order = new Order(Basket);
-            Orders.Add(order);
-
-            Basket.Clear();
         }
     }
 }
